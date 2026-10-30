@@ -1,0 +1,20 @@
+reviews: (701528, 4) | meta: (112590, 16)
+meta columns: ['main_category', 'title', 'average_rating', 'rating_number', 'features', 'description', 'price', 'images', 'videos', 'store', 'categories', 'details', 'parent_asin', 'bought_together', 'subtitle', 'author']
+users: 631986 | items in reviews: 112565
+duplicate parent_asin in meta: 0
+reviews with a metadata row: 100.0 %
+items with a metadata row: 100.0 %
+meta rows with title: 100.0 %
+meta rows with description: 17.0 %
+meta rows with features: 15.4 %
+count    631986.000000
+mean          1.110037
+std           0.753202
+min           1.000000
+25%           1.000000
+50%           1.000000
+75%           1.000000
+max         165.000000
+dtype: float64
+k=3: ratings=12219, users=2087, items=2216
+k=5: ratings=3315, users=357, items=479
