@@ -25,13 +25,13 @@ Amazon Reviews 2023, category All_Beauty, from McAuley Lab: https://huggingface.
 | `All_Beauty.jsonl` | Reviews: user, product ID, rating, timestamp |
 | `raw_meta_All_Beauty` (parquet) | Product metadata: title, description, features, categories |
 
-Reviews and metadata are joined on `parent_asin`. The data files are not committed to this repository. Download both files into `data/raw/`.
+Reviews and metadata are joined on `parent_asin`. After removing duplicate user-item pairs and keeping users and items with at least 3 ratings, the data has 1,244 users, 1,463 items and 8,978 ratings (99.51% sparse). The data files are not committed to this repository. Download both files into `data/raw/`.
 
 ## How it works
 
 | User history | Model used |
 | --- | --- |
-| 0 ratings | Popularity (weighted rating, optional category filter) |
+| 0 ratings | Popularity (weighted rating) |
 | 1 to 4 ratings | Item-based CF and content-based on the rated items, merged by score |
 | 5 or more ratings | SVD |
 | New or rarely rated product | Content-based (TF-IDF cosine similarity) |
@@ -59,7 +59,9 @@ recommendation-engine/
 │   ├── svd_model.py
 │   ├── content_model.py
 │   ├── router.py
-│   └── evaluate.py
+│   ├── evaluate.py
+│   ├── eda.py
+│   └── try_models.py
 ├── models/                   # saved models
 ├── tests/
 │   └── test_router.py
@@ -106,13 +108,13 @@ Fill this table in after running the evaluation.
 | Content-based | | | | |
 | Hybrid | | | | |
 
-Cold-start segment (users with 1 to 4 training ratings): N users = ___
+Cold-start segment (users with 2 to 4 training ratings): N users = ___
 
-SVD implementation used: Surprise / scikit-learn TruncatedSVD (delete one).
+SVD implementation used: Surprise.
 
 ## Limitations
 
-- All_Beauty is very sparse (about 1.1 ratings per user), so few users have enough history for collaborative filtering.
+- All_Beauty is very sparse (about 1.1 ratings per user), so few users have enough history for collaborative filtering (about 461 of 1,244 users keep 5 or more training ratings).
 - Collaborative models cannot serve users or products with no ratings; the router falls back to popularity and text similarity.
 - Popularity can score well on Precision@K because popular items are often liked, so accuracy is read together with coverage.
 - Text features come from product titles and descriptions and may still contain noise after cleaning.

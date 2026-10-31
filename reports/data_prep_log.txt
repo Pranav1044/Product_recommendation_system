@@ -1,0 +1,10 @@
+raw reviews: 701528
+after dropping missing values and duplicates: 693929
+reviews with a metadata row: 100.0% (dropping 0)
+k = 3: ratings = 8978, users = 1244, items = 1463
+sparsity of the user-item matrix: 99.51%
+items with non-empty title: 100.0%
+items with non-empty categories: 0.0%
+items with non-empty features: 22.4%
+items with non-empty description: 8.4%
+average cleaned text length (words): 71.9
