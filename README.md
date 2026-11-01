@@ -98,23 +98,27 @@ python -m pytest tests           # run the router tests
 
 Each user's ratings are split 80/20 into train and test. A test item is relevant when its rating is 4 or more. K = 10. All models are fit on the training part only.
 
-Fill this table in after running the evaluation.
+Results on all 1,244 users (1,075 have at least one relevant test item). The full table, with the cold-start and 5-or-more-ratings segments, is in `reports/model_comparison.csv`.
 
 | Model | Precision@10 | Recall@10 | Coverage | Diversity |
 | --- | --- | --- | --- | --- |
-| Popularity | | | | |
-| Item-based CF | | | | |
-| SVD | | | | |
-| Content-based | | | | |
-| Hybrid | | | | |
+| Popularity | 0.0011 | 0.0066 | 0.9% | 0.984 |
+| Item-based CF | 0.0023 | 0.0195 | 44.0% | 0.967 |
+| SVD | 0.0013 | 0.0083 | 11.6% | 0.982 |
+| Content-based | 0.0099 | 0.0780 | 91.9% | 0.800 |
+| Hybrid | 0.0073 | 0.0679 | 90.4% | 0.883 |
 
-Cold-start segment (users with 2 to 4 training ratings): N users = ___
+Cold-start segment (users with 2 to 4 training ratings): N users = 783 (649 with a relevant test item). The hybrid matches the best single model there (Precision@10 0.0103, Recall@10 0.1032).
+
+Settings checked on the test split: `MIN_CO_RATED` 2 beat 3 and 4, `ROUTER_SVD_MIN` 5 beat 3 and 4, and `POPULARITY_M` differences were within noise, so the defaults are kept.
 
 SVD implementation used: Surprise.
 
 ## Limitations
 
 - All_Beauty is very sparse (about 1.1 ratings per user), so few users have enough history for collaborative filtering (about 461 of 1,244 users keep 5 or more training ratings).
+- Absolute scores are low: most users have one relevant test item, so Precision@10 cannot exceed 0.1, and hit counts are small enough that gaps such as popularity vs SVD are noise.
+- For users with 5 or more training ratings, SVD trails the content-based model, so the hybrid is weaker than content alone for them.
 - Collaborative models cannot serve users or products with no ratings; the router falls back to popularity and text similarity.
 - Popularity can score well on Precision@K because popular items are often liked, so accuracy is read together with coverage.
 - Text features come from product titles and descriptions and may still contain noise after cleaning.
