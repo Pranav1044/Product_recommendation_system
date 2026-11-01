@@ -61,6 +61,7 @@ recommendation-engine/
 │   ├── router.py
 │   ├── evaluate.py
 │   ├── eda.py
+│   ├── train.py
 │   └── try_models.py
 ├── models/                   # saved models
 ├── tests/
@@ -89,7 +90,9 @@ Adjust the commands below to match your final script names.
 
 ```bash
 python -m src.data_prep          # clean data and save processed files
-python -m src.evaluate           # train models, evaluate, save the comparison table
+python -m src.evaluate           # train on the split, evaluate, save the comparison table
+python -m src.train              # fit on all ratings and save models/router.joblib
+
 streamlit run app.py             # start the demo app
 python -m pytest tests           # run the router tests
 ```
