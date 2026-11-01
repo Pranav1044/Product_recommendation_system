@@ -34,7 +34,7 @@ Reviews and metadata are joined on `parent_asin`. After removing duplicate user-
 | 0 ratings | Popularity (weighted rating) |
 | 1 to 4 ratings | Item-based CF and content-based on the rated items, merged by score |
 | 5 or more ratings | SVD |
-| New or rarely rated product | Content-based (TF-IDF cosine similarity) |
+| Similar to a product | Item-based CF and content if the product has 5 or more ratings, otherwise content only (TF-IDF cosine similarity) |
 
 The thresholds are defaults and can be changed in `src/config.py`.
 
