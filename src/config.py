@@ -27,3 +27,4 @@ SVD_FACTORS = 20         # number of latent factors for SVD
 # Router: number of TRAINING ratings a user has
 ROUTER_FEW_MIN = 1       # 1 up to ROUTER_SVD_MIN - 1  -> item-based CF + content
 ROUTER_SVD_MIN = 5       # this many or more           -> SVD (revisit after EDA)
+ROUTER_ITEM_MIN = 5      # an item with fewer training ratings uses content only

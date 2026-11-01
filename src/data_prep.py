@@ -3,7 +3,7 @@
 Run from the project root:  python -m src.data_prep
 """
 import html
-import re
+import re  # For regular expression ( pattern matching o text )
 
 import pandas as pd
 
@@ -37,9 +37,9 @@ def clean_text(s):
 def kcore(df, k):
     """Repeatedly drop users and items with fewer than k ratings until none are left."""
     while True:
-        u = df.user_id.map(df.user_id.value_counts())
-        i = df.parent_asin.map(df.parent_asin.value_counts())
-        keep = (u >= k) & (i >= k)
+        u = df.user_id.map(df.user_id.value_counts())  #how many ratings the row’s user has given.
+        i = df.parent_asin.map(df.parent_asin.value_counts()) #how many ratings the row’s item has received.
+        keep = (u >= k) & (i >= k)  # if the user has given rating greater than k , then only keep it and same goes for item
         if keep.all():
             return df
         df = df[keep]
@@ -58,7 +58,7 @@ def main():
     reviews = pd.read_json(config.REVIEWS_FILE, lines=True)
     reviews = reviews[["user_id", "parent_asin", "rating", "timestamp"]]
     note(f"raw reviews: {len(reviews)}")
-    reviews = reviews.dropna(subset=["user_id", "parent_asin", "rating"])
+    reviews = reviews.dropna(subset=["user_id", "parent_asin", "rating"])  # Row wise happens
     reviews = reviews.sort_values("timestamp").drop_duplicates(["user_id", "parent_asin"], keep="last")
     note(f"after dropping missing values and duplicates: {len(reviews)}")
 
